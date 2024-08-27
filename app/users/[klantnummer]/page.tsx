@@ -1,31 +1,28 @@
-import { useRouter } from 'next/router';
-import { doc, getDoc } from 'firebase/firestore';
+// app/users/[klantnummer]/page.tsx
+import { GetServerSideProps } from 'next';
 import { database } from '../../../lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { ReactElement } from 'react';
 
-export default function KlantPagina({ params }) {
-  const { klantnummer } = params;
+type KlantInfo = {
+  naam: string;
+  adres: string;
+};
 
-  // Logica om klantgegevens op te halen
-  const [klantInfo, setKlantInfo] = useState(null);
+type KlantPaginaProps = {
+  klantnummer: string;
+  klantInfo: KlantInfo | null;
+  error?: string;
+};
 
-  useEffect(() => {
-    if (klantnummer) {
-      const klantRef = doc(database, 'users', klantnummer);
-      getDoc(klantRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          setKlantInfo(snapshot.data());
-        } else {
-          setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
-        }
-      }).catch((error) => {
-        console.error('Fout bij het ophalen van gegevens:', error);
-        setKlantInfo({ error: 'Er is een fout opgetreden.' });
-      });
-    }
-  }, [klantnummer]);
+export default function KlantPagina({ klantnummer, klantInfo, error }: KlantPaginaProps): ReactElement {
+  if (error) {
+    return <p>{error}</p>;
+  }
 
-  if (!klantInfo) return <p>Gegevens laden...</p>;
-  if (klantInfo?.error) return <p>{klantInfo.error}</p>;
+  if (!klantInfo) {
+    return <p>Geen gegevens gevonden voor klantnummer {klantnummer}.</p>;
+  }
 
   return (
     <div>
@@ -35,3 +32,33 @@ export default function KlantPagina({ params }) {
     </div>
   );
 }
+
+// Dit is een voorbeeld van een server-side functie
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const klantnummer = context.params?.klantnummer as string;
+  let klantInfo = null;
+  let error = '';
+
+  if (klantnummer) {
+    try {
+      const klantRef = doc(database, 'users', klantnummer);
+      const docSnap = await getDoc(klantRef);
+      
+      if (docSnap.exists()) {
+        klantInfo = docSnap.data() as KlantInfo;
+      } else {
+        error = 'Geen informatie gevonden voor dit klantnummer.';
+      }
+    } catch (e) {
+      error = 'Er is een fout opgetreden bij het ophalen van de gegevens.';
+    }
+  }
+
+  return {
+    props: {
+      klantnummer,
+      klantInfo,
+      error,
+    },
+  };
+};
