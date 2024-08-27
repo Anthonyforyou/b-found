@@ -4,8 +4,12 @@ import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 
 type KlantInfo = {
-  naam: string;
-  adres: string;
+  Naam: string;
+  leeftijd: string;
+  Adres: string;
+  Telefoonnummer_ouder: string;
+  Extra_telefoonnummer: string;
+  Extra_informatie: string;
 };
 
 type KlantPaginaProps = {
@@ -50,8 +54,12 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
   return (
     <div>
       <h1>Klantinformatie voor {klantnummer}</h1>
-      <p>Naam: {klantInfo.naam}</p>
-      <p>Adres: {klantInfo.adres}</p>
+      <p>Naam: {klantInfo.Naam}</p>
+      <p>leeftijd: {klantInfo.Leeftijd}</p>
+      <p>Adres: {klantInfo.Adres}</p>
+      <p>Telefoonnummer_ouder: {klantInfo.Telefoonnummer_ouder}</p>
+      <p>Extra_telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
+      <p>Extra_informatie: {klantInfo.Extra_informatie}</p>
     </div>
   );
 }
