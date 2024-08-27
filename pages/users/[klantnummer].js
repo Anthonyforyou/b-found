@@ -1,4 +1,3 @@
-// pages/users/[klantnummer].js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
@@ -47,6 +46,11 @@ const KlantPagina = () => {
       <p>Naam: {klantInfo.naam}</p>
       <p>Adres: {klantInfo.adres}</p>
     </div>
+  );
+};
+
+export default KlantPagina;
+
   );
 };
 
