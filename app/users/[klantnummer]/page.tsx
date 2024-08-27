@@ -2,7 +2,7 @@ import { database } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 import styles from './KlantPagina.module.css';
-import '../styles/globals.css'
+import '../globals.css'
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
