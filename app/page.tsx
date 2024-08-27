@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className={styles.container}>
       <h1 className={styles.header}>Informatie</h1>
       <div className={styles.infoBlock}>
-        <p>Voordat er informatie wordt getoond, moet je een QR-code scannen van D-brand.</p>
+        <p>Je moet eerst een QR-code scannen van D-brand voordat je hier informatie kan zien :)</p>
       </div>
     </div>
   );
