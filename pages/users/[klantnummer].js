@@ -1,3 +1,4 @@
+// pages/users/[klantnummer].js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
@@ -5,31 +6,27 @@ import { database } from '../../lib/firebase';
 
 const KlantPagina = () => {
   const router = useRouter();
-  const { klantnummer } = router.query;
+  const { klantnummer } = router.query; // Haal het klantnummer uit de router query
   const [klantInfo, setKlantInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (klantnummer) {
-        try {
-          const klantRef = doc(database, 'Users', klantnummer); // Firestore doc
-          const snapshot = await getDoc(klantRef);
-          if (snapshot.exists()) {
-            setKlantInfo(snapshot.data());
-          } else {
-            setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
-          }
-        } catch (error) {
-          console.error('Fout bij het ophalen van gegevens:', error);
-          setKlantInfo({ error: 'Er is een fout opgetreden.' });
-        } finally {
-          setLoading(false);
+    if (klantnummer) {
+      // Referentie naar het document in de collectie 'users' met het klantnummer als documentnaam
+      const klantRef = doc(database, 'users', klantnummer);
+      getDoc(klantRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          setKlantInfo(snapshot.data()); // Haal de data uit het document
+        } else {
+          setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
         }
-      }
-    };
-
-    fetchData();
+        setLoading(false);
+      }).catch((error) => {
+        console.error('Fout bij het ophalen van gegevens:', error);
+        setKlantInfo({ error: 'Er is een fout opgetreden.' });
+        setLoading(false);
+      });
+    }
   }, [klantnummer]);
 
   if (loading) {
@@ -45,12 +42,8 @@ const KlantPagina = () => {
       <h1>Klantinformatie voor {klantnummer}</h1>
       <p>Naam: {klantInfo.naam}</p>
       <p>Adres: {klantInfo.adres}</p>
+      {/* Voeg andere klantinformatie toe die je hebt */}
     </div>
-  );
-};
-
-export default KlantPagina;
-
   );
 };
 
