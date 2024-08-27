@@ -1,12 +1,4 @@
-/* Zorg ervoor dat de achtergrondkleur de volledige pagina bedekt */
-html, body {
-  background-color: #1c2a38;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  font-family: Arial, sans-serif;
-}
+
 
 /* De container heeft geen extra achtergrondkleur nodig */
 .container {
