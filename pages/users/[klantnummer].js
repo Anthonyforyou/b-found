@@ -11,21 +11,26 @@ const KlantPagina = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (klantnummer) {
-      const klantRef = doc(database, 'Users', klantnummer); // Firestore doc
-      getDoc(klantRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          setKlantInfo(snapshot.data());
-        } else {
-          setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
+    const fetchData = async () => {
+      if (klantnummer) {
+        try {
+          const klantRef = doc(database, 'Users', klantnummer); // Firestore doc
+          const snapshot = await getDoc(klantRef);
+          if (snapshot.exists()) {
+            setKlantInfo(snapshot.data());
+          } else {
+            setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
+          }
+        } catch (error) {
+          console.error('Fout bij het ophalen van gegevens:', error);
+          setKlantInfo({ error: 'Er is een fout opgetreden.' });
+        } finally {
+          setLoading(false);
         }
-        setLoading(false);
-      }).catch((error) => {
-        console.error('Fout bij het ophalen van gegevens:', error);
-        setKlantInfo({ error: 'Er is een fout opgetreden.' });
-        setLoading(false);
-      });
-    }
+      }
+    };
+
+    fetchData();
   }, [klantnummer]);
 
   if (loading) {
