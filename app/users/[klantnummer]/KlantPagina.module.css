@@ -1,48 +1,25 @@
 .container {
+  padding: 20px;
+  background-color: #1c2a38;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background-color: #0d1b2a;
-  color: #ffffff;
-  min-height: 100vh;
+  justify-content: center;
 }
 
 .header {
   font-size: 24px;
-  font-weight: bold;
+  color: #ffffff;
   margin-bottom: 20px;
 }
 
-.info-block {
-  width: 100%;
-  max-width: 400px;
-  background-color: #1b263b;
+.infoBlock {
+  background-color: #27425c;
+  color: #ffffff;
   padding: 15px;
-  margin-bottom: 15px;
   border-radius: 8px;
-  font-size: 16px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.info-block p {
-  margin: 0;
-  padding: 5px 0;
-}
-
-.scan-button {
-  background-color: #d4a373;
-  color: #000000;
-  padding: 15px 30px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 20px;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.scan-button:hover {
-  background-color: #c68a58;
+  margin-bottom: 10px;
+  width: 90%;
+  max-width: 500px;
 }
