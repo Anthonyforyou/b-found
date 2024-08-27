@@ -1,12 +1,16 @@
-.body {
+/* Zorg ervoor dat de achtergrondkleur de volledige pagina bedekt */
+html, body {
   background-color: #1c2a38;
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   font-family: Arial, sans-serif;
 }
 
+/* De container heeft geen extra achtergrondkleur nodig */
 .container {
   padding: 20px;
-  background-color: #1c2a38;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,12 +18,14 @@
   justify-content: center;
 }
 
+/* Stijl voor de koptekst */
 .header {
   font-size: 24px;
   color: #ffffff;
   margin-bottom: 20px;
 }
 
+/* Info blok styling */
 .infoBlock {
   background-color: #27425c;
   color: #ffffff;
@@ -28,4 +34,19 @@
   margin-bottom: 10px;
   width: 90%;
   max-width: 500px;
+}
+
+/* Eventueel een extra knopstijl (optioneel) */
+.button {
+  background-color: #bfa17a;
+  color: #1c2a38;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #a88f6a;
 }
