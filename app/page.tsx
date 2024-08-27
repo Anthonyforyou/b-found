@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './KlantPagina.module.css'; // hergebruiken van dezelfde stijlen
+import './globals.css'
 
 export default function HomePage() {
   return (
