@@ -1,6 +1,7 @@
+// pages/users/[klantnummer].js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ref, get } from 'firebase/database';
+import { doc, getDoc } from 'firebase/firestore';
 import { database } from '../../lib/firebase';
 
 const KlantPagina = () => {
@@ -11,10 +12,10 @@ const KlantPagina = () => {
 
   useEffect(() => {
     if (klantnummer) {
-      const klantRef = ref(database, 'Users/' + klantnummer);
-      get(klantRef).then((snapshot) => {
+      const klantRef = doc(database, 'Users', klantnummer); // Firestore doc
+      getDoc(klantRef).then((snapshot) => {
         if (snapshot.exists()) {
-          setKlantInfo(snapshot.val());
+          setKlantInfo(snapshot.data());
         } else {
           setKlantInfo({ error: 'Geen informatie gevonden voor dit klantnummer.' });
         }
