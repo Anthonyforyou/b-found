@@ -1,7 +1,7 @@
-import styles from './KlantPagina.module.css';
 import { database } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
+import styles from './KlantPagina.module.css';
 
 type KlantInfo = {
   Naam: string;
@@ -10,6 +10,12 @@ type KlantInfo = {
   Telefoonnummer_ouder: string;
   Extra_telefoonnummer: string;
   Extra_informatie: string;
+};
+
+type KlantPaginaProps = {
+  klantnummer: string;
+  klantInfo: KlantInfo | null;
+  error?: string;
 };
 
 async function fetchKlantInfo(klantnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> {
@@ -47,22 +53,21 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>Informatie</h1>
-      <div className={styles.info-block}>
+      <div className={styles.infoBlock}>
         <p>Naam: {klantInfo.Naam}</p>
       </div>
-      <div className={styles.info-block}>
+      <div className={styles.infoBlock}>
         <p>Leeftijd: {klantInfo.Leeftijd}</p>
       </div>
-      <div className={styles.info-block}>
+      <div className={styles.infoBlock}>
         <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
       </div>
-      <div className={styles.info-block}>
+      <div className={styles.infoBlock}>
         <p>Extra telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
       </div>
-      <div className={styles.info-block}>
+      <div className={styles.infoBlock}>
         <p>Extra informatie: {klantInfo.Extra_informatie}</p>
       </div>
-      <button className={styles.scan-button}>Scan QR-code</button>
     </div>
   );
 }
