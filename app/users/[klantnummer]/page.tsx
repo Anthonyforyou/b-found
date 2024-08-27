@@ -5,7 +5,7 @@ import { ReactElement } from 'react';
 
 type KlantInfo = {
   Naam: string;
-  leeftijd: string;
+  Leeftijd: string;
   Adres: string;
   Telefoonnummer_ouder: string;
   Extra_telefoonnummer: string;
@@ -55,7 +55,7 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
     <div>
       <h1>Klantinformatie voor {klantnummer}</h1>
       <p>Naam: {klantInfo.Naam}</p>
-      <p>leeftijd: {klantInfo.Leeftijd}</p>
+      <p>Leeftijd: {klantInfo.Leeftijd}</p>
       <p>Adres: {klantInfo.Adres}</p>
       <p>Telefoonnummer_ouder: {klantInfo.Telefoonnummer_ouder}</p>
       <p>Extra_telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
