@@ -60,6 +60,9 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
         <p>Leeftijd: {klantInfo.Leeftijd}</p>
       </div>
       <div className={styles.infoBlock}>
+        <p>Adres: {klantInfo.Adres}</p>
+      </div>
+      <div className={styles.infoBlock}>
         <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
       </div>
       <div className={styles.infoBlock}>
