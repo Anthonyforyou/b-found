@@ -1,17 +1,18 @@
-// app/users/[klantnummer]/page.tsx
 import { database } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 
+// Update veldnamen om overeen te komen met Firestore veldnamen
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
   Adres: string;
-  Telefoonnummer_ouder: string;
-  Extra_telefoonnummer: string;
-  Extra_informatie: string;
+  Telefoonnummer_ouder: string; // Aangepast naar 'Telefoonnummer ouder' in Firestore
+  Extra_telefoonnummer: string;  // Aangepast naar 'Extra telefoonnummer' in Firestore
+  Extra_informatie: string;      // Aangepast naar 'Extra informatie' in Firestore
 };
 
+// Props en fetchKlantInfo blijven gelijk
 type KlantPaginaProps = {
   klantnummer: string;
   klantInfo: KlantInfo | null;
@@ -57,9 +58,9 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
       <p>Naam: {klantInfo.Naam}</p>
       <p>Leeftijd: {klantInfo.Leeftijd}</p>
       <p>Adres: {klantInfo.Adres}</p>
-      <p>Telefoonnummer_ouder: {klantInfo.Telefoonnummer_ouder}</p>
-      <p>Extra_telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
-      <p>Extra_informatie: {klantInfo.Extra_informatie}</p>
+      <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
+      <p>Extra telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
+      <p>Extra informatie: {klantInfo.Extra_informatie}</p>
     </div>
   );
 }
