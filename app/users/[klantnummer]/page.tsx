@@ -1,25 +1,17 @@
+import styles from './KlantPagina.module.css';
 import { database } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 
-// Update veldnamen om overeen te komen met Firestore veldnamen
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
   Adres: string;
-  Telefoonnummer_ouder: string; // Aangepast naar 'Telefoonnummer ouder' in Firestore
-  Extra_telefoonnummer: string;  // Aangepast naar 'Extra telefoonnummer' in Firestore
-  Extra_informatie: string;      // Aangepast naar 'Extra informatie' in Firestore
+  Telefoonnummer_ouder: string;
+  Extra_telefoonnummer: string;
+  Extra_informatie: string;
 };
 
-// Props en fetchKlantInfo blijven gelijk
-type KlantPaginaProps = {
-  klantnummer: string;
-  klantInfo: KlantInfo | null;
-  error?: string;
-};
-
-// Server component die asynchroon data ophaalt
 async function fetchKlantInfo(klantnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> {
   let klantInfo = null;
   let error = '';
@@ -53,14 +45,24 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
   }
 
   return (
-    <div>
-      <h1>Klantinformatie voor {klantnummer}</h1>
-      <p>Naam: {klantInfo.Naam}</p>
-      <p>Leeftijd: {klantInfo.Leeftijd}</p>
-      <p>Adres: {klantInfo.Adres}</p>
-      <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
-      <p>Extra telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
-      <p>Extra informatie: {klantInfo.Extra_informatie}</p>
+    <div className={styles.container}>
+      <h1 className={styles.header}>Informatie</h1>
+      <div className={styles.info-block}>
+        <p>Naam: {klantInfo.Naam}</p>
+      </div>
+      <div className={styles.info-block}>
+        <p>Leeftijd: {klantInfo.Leeftijd}</p>
+      </div>
+      <div className={styles.info-block}>
+        <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
+      </div>
+      <div className={styles.info-block}>
+        <p>Extra telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
+      </div>
+      <div className={styles.info-block}>
+        <p>Extra informatie: {klantInfo.Extra_informatie}</p>
+      </div>
+      <button className={styles.scan-button}>Scan QR-code</button>
     </div>
   );
 }
