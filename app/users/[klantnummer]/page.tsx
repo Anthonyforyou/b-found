@@ -25,7 +25,7 @@ async function fetchKlantInfo(klantnummer: string, shirtnummer: string): Promise
   let error = '';
 
   try {
-    const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer);
+    const klantRef = doc(database, klantnummer, shirtnummer); // Hier gebruiken we klantnummer als collectie en shirtnummer als document-ID
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
