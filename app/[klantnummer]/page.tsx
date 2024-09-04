@@ -1,4 +1,4 @@
-import { database } from '../../../lib/firebase.js';
+import { database } from '../../lib/firebase.js';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 import styles from './KlantPagina.module.css';
