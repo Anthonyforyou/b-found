@@ -1,8 +1,8 @@
-import { database } from '../../../lib/firebase';
+import { GetServerSideProps } from 'next';
+import { database } from '../../../lib/firebase'; // Zorg ervoor dat het pad correct is
 import { doc, getDoc } from 'firebase/firestore';
-import { ReactElement } from 'react';
-import styles from './KlantPagina.module.css';
-import './globals.css';
+import styles from './KlantPagina.module.css'; // Zorg ervoor dat de pad correct is
+import './globals.css'; // Zorg ervoor dat de pad correct is
 
 type KlantInfo = {
   Naam: string;
@@ -14,18 +14,16 @@ type KlantInfo = {
 };
 
 type KlantPaginaProps = {
-  klantnummer: string;
-  shirtnummer: string;
   klantInfo: KlantInfo | null;
   error?: string;
 };
 
-async function fetchKlantInfo(klantnummer: string, shirtnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> {
+const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> => {
   let klantInfo = null;
   let error = '';
 
   try {
-    const klantRef = doc(database, klantnummer, shirtnummer); // Hier gebruiken we klantnummer als collectie en shirtnummer als document-ID
+    const klantRef = doc(database, klantnummer, shirtnummer); // Hier wordt de juiste collectie en document opgehaald
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
@@ -40,16 +38,25 @@ async function fetchKlantInfo(klantnummer: string, shirtnummer: string): Promise
   return { klantInfo, error };
 }
 
-export default async function KlantPagina({ params }: { params: { klantnummer: string, shirtnummer: string } }): Promise<ReactElement> {
-  const { klantnummer, shirtnummer } = params;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { klantnummer, shirtnummer } = context.query;
+
+  if (typeof klantnummer !== 'string' || typeof shirtnummer !== 'string') {
+    return { props: { klantInfo: null, error: 'Ongeldige parameters' } };
+  }
+
   const { klantInfo, error } = await fetchKlantInfo(klantnummer, shirtnummer);
 
+  return { props: { klantInfo, error } };
+};
+
+const KlantPagina = ({ klantInfo, error }: KlantPaginaProps) => {
   if (error) {
     return <p>{error}</p>;
   }
 
   if (!klantInfo) {
-    return <p>Geen gegevens gevonden voor klantnummer {klantnummer} en shirtnummer {shirtnummer}.</p>;
+    return <p>Geen gegevens gevonden.</p>;
   }
 
   return (
@@ -76,3 +83,6 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
     </div>
   );
 }
+
+export default KlantPagina;
+
