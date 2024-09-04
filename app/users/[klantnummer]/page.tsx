@@ -2,7 +2,8 @@ import { database } from '../../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ReactElement } from 'react';
 import styles from './KlantPagina.module.css';
-import './globals.css'
+import './globals.css';
+
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
@@ -14,22 +15,23 @@ type KlantInfo = {
 
 type KlantPaginaProps = {
   klantnummer: string;
+  shirtnummer: string;
   klantInfo: KlantInfo | null;
   error?: string;
 };
 
-async function fetchKlantInfo(klantnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> {
+async function fetchKlantInfo(klantnummer: string, shirtnummer: string): Promise<{ klantInfo: KlantInfo | null; error?: string }> {
   let klantInfo = null;
   let error = '';
 
   try {
-    const klantRef = doc(database, 'users', klantnummer);
+    const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer);
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
       klantInfo = docSnap.data() as KlantInfo;
     } else {
-      error = 'Geen informatie gevonden voor dit klantnummer.';
+      error = 'Geen informatie gevonden voor dit shirtnummer.';
     }
   } catch (e) {
     error = 'Er is een fout opgetreden bij het ophalen van de gegevens.';
@@ -38,16 +40,16 @@ async function fetchKlantInfo(klantnummer: string): Promise<{ klantInfo: KlantIn
   return { klantInfo, error };
 }
 
-export default async function KlantPagina({ params }: { params: { klantnummer: string } }): Promise<ReactElement> {
-  const { klantnummer } = params;
-  const { klantInfo, error } = await fetchKlantInfo(klantnummer);
+export default async function KlantPagina({ params }: { params: { klantnummer: string, shirtnummer: string } }): Promise<ReactElement> {
+  const { klantnummer, shirtnummer } = params;
+  const { klantInfo, error } = await fetchKlantInfo(klantnummer, shirtnummer);
 
   if (error) {
     return <p>{error}</p>;
   }
 
   if (!klantInfo) {
-    return <p>Geen gegevens gevonden voor klantnummer {klantnummer}.</p>;
+    return <p>Geen gegevens gevonden voor klantnummer {klantnummer} en shirtnummer {shirtnummer}.</p>;
   }
 
   return (
