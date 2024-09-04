@@ -1,9 +1,3 @@
-import { GetServerSideProps } from 'next';
-import { database } from '../../lib/firebase'; // Zorg ervoor dat het pad naar firebase.js correct is
-import { doc, getDoc } from 'firebase/firestore';
-import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad naar je CSS-bestand correct is
-import './globals.css'; // Zorg ervoor dat het pad naar je globale CSS-bestand correct is
-
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
@@ -23,7 +17,7 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
   let error = '';
 
   try {
-    // Verwijzing naar het juiste document in Firestore
+    // Zorg ervoor dat de referentie naar Firestore correct is
     const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer); 
     const docSnap = await getDoc(klantRef);
     
@@ -37,21 +31,20 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
   }
 
   return { klantInfo, error };
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { klantnummer, shirtnummer } = context.query;
-
-  if (typeof klantnummer !== 'string' || typeof shirtnummer !== 'string') {
-    return { props: { klantInfo: null, error: 'Ongeldige parameters' } };
-  }
-
-  const { klantInfo, error } = await fetchKlantInfo(klantnummer, shirtnummer);
-
-  return { props: { klantInfo, error } };
 };
 
-const KlantPagina = ({ klantInfo, error }: KlantPaginaProps) => {
+export async function generateMetadata({ params }: { params: { klantnummer: string, shirtnummer: string } }) {
+  const { klantnummer, shirtnummer } = params;
+  const { klantInfo } = await fetchKlantInfo(klantnummer, shirtnummer);
+  return {
+    title: klantInfo ? `Informatie voor ${klantnummer}/${shirtnummer}` : 'Geen gegevens',
+  };
+}
+
+export default async function KlantPagina({ params }: { params: { klantnummer: string, shirtnummer: string } }) {
+  const { klantnummer, shirtnummer } = params;
+  const { klantInfo, error } = await fetchKlantInfo(klantnummer, shirtnummer);
+
   if (error) {
     return <p>{error}</p>;
   }
@@ -84,6 +77,3 @@ const KlantPagina = ({ klantInfo, error }: KlantPaginaProps) => {
     </div>
   );
 }
-
-export default KlantPagina;
-
