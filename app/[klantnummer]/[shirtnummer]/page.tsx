@@ -1,4 +1,4 @@
-import { database } from '../../../../lib/firebase'; // Zorg ervoor dat dit pad correct is
+import { database } from '../../../lib/firebase'; // Zorg ervoor dat dit pad correct is
 import { doc, getDoc } from 'firebase/firestore';
 import styles from './KlantPagina.module.css'; // Zorg ervoor dat dit pad correct is
 import './globals.css'; // Zorg ervoor dat dit pad correct is
