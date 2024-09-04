@@ -24,7 +24,7 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
 
   try {
     // Zorg ervoor dat de referentie naar Firestore correct is
-    const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer); 
+    const klantRef = doc(database, klantnummer, shirtnummer); 
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
