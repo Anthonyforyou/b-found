@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
-import { database } from '../../lib/firebase.js'; // Zorg ervoor dat het pad correct is
+import { database } from '../../lib/firebase'; // Zorg ervoor dat het pad naar firebase.js correct is
 import { doc, getDoc } from 'firebase/firestore';
-import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad correct is
-import './globals.css'; // Zorg ervoor dat het pad correct is
+import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad naar je CSS-bestand correct is
+import './globals.css'; // Zorg ervoor dat het pad naar je globale CSS-bestand correct is
 
 type KlantInfo = {
   Naam: string;
@@ -23,8 +23,8 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
   let error = '';
 
   try {
-    // Zorg ervoor dat de referentie naar Firestore correct is
-    const klantRef = doc(database, klantnummer, shirtnummer); 
+    // Verwijzing naar het juiste document in Firestore
+    const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer); 
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
