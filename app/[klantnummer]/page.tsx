@@ -1,3 +1,10 @@
+import { GetServerSideProps } from 'next';
+import { database } from '../../lib/firebase'; // Zorg ervoor dat het pad naar firebase.js correct is
+import { doc, getDoc } from 'firebase/firestore';
+import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad naar je CSS-bestand correct is
+import './globals.css'; // Zorg ervoor dat het pad naar je globale CSS-bestand correct is
+
+
 type KlantInfo = {
   Naam: string;
   Leeftijd: string;
