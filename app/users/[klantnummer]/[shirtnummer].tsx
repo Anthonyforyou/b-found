@@ -1,8 +1,10 @@
+// app/users/[klantnummer]/[shirtnummer].tsx
+
 import { GetServerSideProps } from 'next';
-import { database } from '../../../lib/firebase'; // Zorg ervoor dat het pad correct is
 import { doc, getDoc } from 'firebase/firestore';
-import styles from './KlantPagina.module.css'; // Zorg ervoor dat de pad correct is
-import './globals.css'; // Zorg ervoor dat de pad correct is
+import { database } from '../../../lib/firebase'; // Zorg ervoor dat het pad correct is
+import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad correct is
+import './globals.css';
 
 type KlantInfo = {
   Naam: string;
@@ -23,7 +25,8 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
   let error = '';
 
   try {
-    const klantRef = doc(database, klantnummer, shirtnummer); // Hier wordt de juiste collectie en document opgehaald
+    // Zorg ervoor dat de referentie naar Firestore correct is
+    const klantRef = doc(database, 'users', klantnummer, 'shirts', shirtnummer); 
     const docSnap = await getDoc(klantRef);
     
     if (docSnap.exists()) {
@@ -38,19 +41,19 @@ const fetchKlantInfo = async (klantnummer: string, shirtnummer: string): Promise
   return { klantInfo, error };
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { klantnummer, shirtnummer } = context.query;
+export async function generateMetadata({ params }: { params: { klantnummer: string; shirtnummer: string } }) {
+  const { klantnummer, shirtnummer } = params;
+  const { klantInfo } = await fetchKlantInfo(klantnummer, shirtnummer);
 
-  if (typeof klantnummer !== 'string' || typeof shirtnummer !== 'string') {
-    return { props: { klantInfo: null, error: 'Ongeldige parameters' } };
-  }
+  return {
+    title: klantInfo ? `Informatie voor ${klantInfo.Naam}` : 'Geen gegevens',
+  };
+}
 
+export default async function KlantPagina({ params }: { params: { klantnummer: string; shirtnummer: string } }): Promise<JSX.Element> {
+  const { klantnummer, shirtnummer } = params;
   const { klantInfo, error } = await fetchKlantInfo(klantnummer, shirtnummer);
 
-  return { props: { klantInfo, error } };
-};
-
-const KlantPagina = ({ klantInfo, error }: KlantPaginaProps) => {
   if (error) {
     return <p>{error}</p>;
   }
@@ -83,6 +86,4 @@ const KlantPagina = ({ klantInfo, error }: KlantPaginaProps) => {
     </div>
   );
 }
-
-export default KlantPagina;
 
