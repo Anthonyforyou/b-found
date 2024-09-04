@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { database } from '../../../lib/firebase.js'; // Zorg ervoor dat het pad correct is
+import { database } from '../../lib/firebase.js'; // Zorg ervoor dat het pad correct is
 import { doc, getDoc } from 'firebase/firestore';
 import styles from './KlantPagina.module.css'; // Zorg ervoor dat het pad correct is
 import './globals.css'; // Zorg ervoor dat het pad correct is
