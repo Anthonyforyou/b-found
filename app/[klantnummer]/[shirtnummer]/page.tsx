@@ -70,12 +70,25 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
       <div className={styles.infoBlock}>
         <p>Adres: {klantInfo.Adres}</p>
       </div>
+
+      {/* Klikbare telefoonnummer links */}
       <div className={styles.infoBlock}>
-        <p>Telefoonnummer ouder: {klantInfo.Telefoonnummer_ouder}</p>
+        <p>
+          Telefoonnummer ouder: 
+          <a href={`tel:${klantInfo.Telefoonnummer_ouder}`} className={styles.phoneLink}>
+            {klantInfo.Telefoonnummer_ouder}
+          </a>
+        </p>
       </div>
       <div className={styles.infoBlock}>
-        <p>Extra telefoonnummer: {klantInfo.Extra_telefoonnummer}</p>
+        <p>
+          Extra telefoonnummer: 
+          <a href={`tel:${klantInfo.Extra_telefoonnummer}`} className={styles.phoneLink}>
+            {klantInfo.Extra_telefoonnummer}
+          </a>
+        </p>
       </div>
+
       <div className={styles.infoBlock}>
         <p>Extra informatie: {klantInfo.Extra_informatie}</p>
       </div>
