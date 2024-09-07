@@ -1,4 +1,8 @@
-
+.phoneLink {
+  color: #ffffff;
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 /* De container heeft geen extra achtergrondkleur nodig */
 .container {
