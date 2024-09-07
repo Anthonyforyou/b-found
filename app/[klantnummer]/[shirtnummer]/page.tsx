@@ -5,7 +5,6 @@ import './globals.css'; // Zorg ervoor dat dit pad correct is
 
 type KlantInfo = {
   Naam: string;
-  Leeftijd: string;
   Adres: string;
   Telefoonnummer_ouder: string;
   Extra_telefoonnummer: string;
@@ -65,9 +64,6 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
         <p>Naam: {klantInfo.Naam}</p>
       </div>
       <div className={styles.infoBlock}>
-        <p>Leeftijd: {klantInfo.Leeftijd}</p>
-      </div>
-      <div className={styles.infoBlock}>
         <p>Adres: {klantInfo.Adres}</p>
       </div>
 
@@ -95,3 +91,4 @@ export default async function KlantPagina({ params }: { params: { klantnummer: s
     </div>
   );
 }
+
