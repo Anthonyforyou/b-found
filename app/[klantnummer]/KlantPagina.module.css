@@ -1,3 +1,9 @@
+.phoneLink {
+  color: #ffffff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .container {
   padding: 20px;
   background-color: #1c2a38;
